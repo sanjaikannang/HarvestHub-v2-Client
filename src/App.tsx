@@ -7,9 +7,9 @@ function App() {
 
   return (
     <>
-      <Provider store={store}>
-        <AppRoutes />
-        <ToastContainer position="top-right" autoClose={3000} />
+      <Provider store={store}> {/* Provides the store to all components */}
+        <AppRoutes /> {/* App routes handle navigation */}
+        <ToastContainer position="top-right" autoClose={3000} /> {/* Toast notifications */}
       </Provider>
     </>
   )

@@ -1,15 +1,16 @@
 import axios from "axios";
 
-console.log("Base URL", import.meta.env.VITE_API_BASE_URL);
 
+// Create axios instance with default settings
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:4000",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   }
 });
 
-// Add request interceptor for authentication
+
+// Add request interceptor to include authorization token if it exists
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");

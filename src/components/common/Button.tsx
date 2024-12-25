@@ -19,7 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
     type={type}
     onClick={onClick}
     disabled={disabled}
-    className={`bg-harvest-secondary hover:bg-harvest-primary hover:scale-105 duration-300 text-harvest-offwhite font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+    className={`bg-harvest-secondary text-harvest-offwhite font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline ${className} ${disabled ? 'cursor-not-allowed' : ''}`}
   >
     {children}
   </button>

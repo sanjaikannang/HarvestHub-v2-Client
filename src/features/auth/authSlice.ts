@@ -4,8 +4,8 @@ import apiClient from "../../utils/apiClient";
 import { AuthState, SignupFormData, LoginFormData } from "../../types/auth.types";
 
 const initialState: AuthState = {
-  user: null,
-  token: null,
+  user: JSON.parse(localStorage.getItem("user") || "null"), // Retrieve user data from localStorage
+  token: localStorage.getItem("token") || null, // Retrieve token from localStorage
   loading: false,
   error: null,
 };
@@ -15,10 +15,11 @@ export const signupUser = createAsyncThunk(
   async (payload: SignupFormData, { rejectWithValue }) => {
     try {
       const response = await apiClient.post("/user/signup", payload);
-      toast.success("Signup successful! Please log in.");
+      toast.success("Signup Successful ! Please Login.");
       return response.data;
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Signup failed");
+      toast.error(error.response?.data?.message);
+      console.log("Error", error.response?.data?.message)
       return rejectWithValue(error.response?.data);
     }
   }
@@ -30,9 +31,16 @@ export const loginUser = createAsyncThunk(
     try {
       const response = await apiClient.post("/user/login", payload);
       toast.success("Login successful!");
-      return response.data;
+
+      // Save the user and token in localStorage
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user)); // Save the user object as a string
+
+      return { token, user };
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message);
+      console.log("Error", error.response?.data?.message)
       return rejectWithValue(error.response?.data);
     }
   }
@@ -46,6 +54,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
@@ -72,7 +81,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        // Optionally store token and user in localStorage during login
         localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("user", JSON.stringify(action.payload.user)); // Store full user data
       })
       .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
