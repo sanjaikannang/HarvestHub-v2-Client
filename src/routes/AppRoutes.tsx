@@ -3,7 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "../pages/LandingPage";
 import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
+import FarmerDashboard from "../pages/FarmerDashboard";
+import BuyerDashboard from "../pages/BuyerDashboard";
+import AdminDashboard from "../pages/AdminDashboard";
 
+
+// AppRoutes component to handle routing of the application
 const AppRoutes: React.FC = () => {
     return (
         <Router>
@@ -17,6 +22,16 @@ const AppRoutes: React.FC = () => {
 
                 {/* Login Page */}
                 <Route path="/login" element={<LoginPage />} />
+
+                {/* Farmer Dashboard */}
+                <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
+
+                {/* Farmer Dashboard */}
+                <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
+
+                {/* Farmer Dashboard */}
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
             </Routes>
         </Router>
     );
