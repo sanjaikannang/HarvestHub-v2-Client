@@ -31,7 +31,7 @@ const AppRoutes: React.FC = () => {
 
                 {/* Farmer Dashboard */}
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
+                
             </Routes>
         </Router>
     );

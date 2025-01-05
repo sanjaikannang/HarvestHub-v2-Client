@@ -21,7 +21,7 @@ export const InputField: React.FC<InputFieldProps> = ({
 }) => (
     <div className="mb-4">
         <label className="text-gray-700 text-sm ml-1 mb-2">
-            {label}
+            {label} 
         </label>
         <input
             type={type}

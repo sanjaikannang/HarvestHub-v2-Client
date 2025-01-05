@@ -11,7 +11,7 @@ const initialState: ProductState = {
 
 // Async thunk for uploading a product
 export const uploadProduct = createAsyncThunk(
-  'products/upload',
+  'products/create-order',
   async (productData: UploadProductData, { rejectWithValue }) => {
     try {
       const formData = new FormData();
@@ -101,7 +101,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       // Verify Product
       .addCase(verifyProduct.pending, (state) => {
         state.loading = true;
@@ -110,7 +110,7 @@ const productSlice = createSlice({
       .addCase(verifyProduct.fulfilled, (state, action) => {
         state.loading = false;
         const updatedProduct = action.payload.product;
-        state.products = state.products.map(product => 
+        state.products = state.products.map(product =>
           product._id === updatedProduct._id ? updatedProduct : product
         );
         if (state.currentProduct?._id === updatedProduct._id) {
@@ -121,7 +121,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       // Get All Products
       .addCase(getAllProducts.pending, (state) => {
         state.loading = true;
@@ -135,7 +135,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      
+
       // Get Specific Product
       .addCase(getSpecificProduct.pending, (state) => {
         state.loading = true;
