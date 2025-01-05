@@ -1,13 +1,10 @@
-# React + TypeScript + Vite
 
 project-root/
 │
 ├── public/
-│   ├── index.html        # The main HTML template for the React application
-│   ├── assets/           # Static assets like images, icons, and fonts
-│   │   ├── logo.png
-│   │   └── favicon.ico
-│   └── manifest.json     # Web app manifest for progressive web apps (optional)
+│   ├── Icons/           # Static assets like images, icons, and fonts   
+│   ├── Images/           # Static assets like images, icons, and fonts
+│   ├── Svg/           # Static assets like images, icons, and fonts
 │
 ├── src/
 │   ├── app/
@@ -16,15 +13,24 @@ project-root/
 │   │   └── constants.ts  # Application-wide constants (e.g., API URLs, role enums)
 │   │
 │   ├── components/
+│   │   ├── auth/       # Reusable components shared across the app
+│   │   │   ├── LoginForm.tsx
+|   |   |   |── SignupForm.tsx
+│   │   |
+│   │   |
 │   │   ├── common/       # Reusable components shared across the app
 │   │   │   ├── Button.tsx
 |   |   |   |── Card.tsx
 │   │   │   ├── InputField.tsx
+│   │   │   ├── Loader.tsx
+│   │   │   ├── LoadingSpinner.tsx
 │   │   │   ├── Modal.tsx
-│   │   │   └── Loader.tsx # Pulse loader for loading states
+│   │   │   └──
+│   │   |
+│   │   |
 │   │   ├── UI/      # UI components (e.g., header, footer, nav, sidebars)
 │   │       ├── Nav.tsx
-│   │       ├── 
+│   │       ├── NavBar,tsx
 │   │       └── 
 │   │  
 │   │
@@ -39,33 +45,39 @@ project-root/
 │   │       ├── orderSlice.ts      # Redux slice for orders
 │   │       
 │   │
-│   ├── pages/            # Main page-level components
+│   ├── pages/                    # Main page-level components
 │   │   ├── LandingPage.tsx       # Landing page
-│   │   ├── SignupPage.tsx      # Registration page
+│   │   ├── SignupPage.tsx        # Registration page
 │   │   ├── LoginPage.tsx         # Login page
-│   │   ├── AdminDashboard.tsx
-│   │   ├── BuyerDashboard.tsx
-│   │   └── FarmerDashboard.tsx
+│   │   ├── AdminDashboard.tsx    # Admin page
+│   │   ├── BuyerDashboard.tsx    # Buyer page
+│   │   └── FarmerDashboard.tsx   # Farmer page
 │   │
 │   ├── routes/           # Application routes for different user roles
 │   │   ├── AppRoutes.tsx         # Define routes for the entire app
 │   │   ├── ProtectedRoute.tsx    # HOC for route protection based on roles
 │   │   └── RoleBasedRoutes.tsx   # Conditional rendering based on user roles
 │   │
-│   ├── styles/           # Global styles using Tailwind CSS
-│   │   └── index.css             # Tailwind CSS imports and customizations
+│   ├── schemas/              # schema folder
+│   │   └── validationSchema.ts   # validationSchema
+│   │
+│   ├── types/              # types folder
+│   │   └── auth.types.ts   # auth types
+│   │
 │   │
 │   ├── utils/            # Utility functions and helpers
 │   │   ├── apiClient.ts          # Axios or Fetch wrapper for API calls
 │   │   └── validators.ts         # Input validation logic
 │   │
 │   ├── App.tsx           # Main app component with route definitions
+│   ├── App.css           # Main css component
+│   ├── index.css           # index css component
 │   ├── main.tsx         # Entry point for the React application
 │   └── react-app-env.d.ts# TypeScript definitions for environment variables
 │
 ├── .env                  # Environment variables (API keys, base URLs, etc.)
-├── .eslint.json          # ESLint configuration for linting
-├── .prettierrc           # Prettier configuration for code formatting
+├── index.html            # index.html file
+├── .eslintrc.cjs         # ESLint configuration for linting
 ├── tailwind.config.js    # Tailwind CSS configuration
 ├── tsconfig.json         # TypeScript configuration
 ├── package.json          # Dependencies and scripts

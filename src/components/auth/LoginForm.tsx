@@ -48,7 +48,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ loading, onSubmit }) => {
 
 
                 {/* Submit button */}
-                <Button type="submit" disabled={loading} className="w-full">
+                <Button type="submit" disabled={loading} className="w-full mt-4">
                     {loading ? <LoadingSpinner /> : 'Login'}
                 </Button>
             </form>
