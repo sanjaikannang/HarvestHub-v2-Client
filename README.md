@@ -1,4 +1,3 @@
-
 project-root/
 │
 ├── public/
@@ -18,19 +17,25 @@ project-root/
 |   |   |   |── SignupForm.tsx
 │   │   |
 │   │   |
+│   │   ├── products/       # Reusable components shared across the app
+│   │   │   ├── UploadProductForm.tsx
+│   │   |
+│   │   |
 │   │   ├── common/       # Reusable components shared across the app
 │   │   │   ├── Button.tsx
-|   |   |   |── Card.tsx
-│   │   │   ├── InputField.tsx
+|   |   |   |── DateField.tsx
+|   |   |   |── Imageupload.tsx
+|   |   |   |── InputField.tsx
 │   │   │   ├── Loader.tsx
 │   │   │   ├── LoadingSpinner.tsx
 │   │   │   ├── Modal.tsx
-│   │   │   └──
+│   │   │   ├── TextArea.tsx
+│   │   │   └── TimeField.tsx
 │   │   |
 │   │   |
 │   │   ├── UI/      # UI components (e.g., header, footer, nav, sidebars)
 │   │       ├── Nav.tsx
-│   │       ├── NavBar,tsx
+│   │       ├── NavBar.tsx
 │   │       └── 
 │   │  
 │   │
@@ -62,7 +67,8 @@ project-root/
 │   │   └── validationSchema.ts   # validationSchema
 │   │
 │   ├── types/              # types folder
-│   │   └── auth.types.ts   # auth types
+│   │   ├── auth.types.ts   # auth types
+│   │   ├── protect.types.ts    # product types
 │   │
 │   │
 │   ├── utils/            # Utility functions and helpers
