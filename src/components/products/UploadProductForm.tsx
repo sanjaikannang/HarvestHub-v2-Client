@@ -24,8 +24,8 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
     const [formData, setFormData] = useState<UploadProductData>({
         name: '',
         description: '',
-        startingPrice: 0,
-        quantity: 0,
+        startingPrice: '0',
+        quantity: '0',
         startingDate: '',
         endingDate: '',
         bidStartTime: '',
@@ -47,11 +47,14 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
             errors.description = 'Description is required';
         }
 
-        if (formData.startingPrice <= 0) {
+        const startingPriceNum = parseFloat(formData.startingPrice);
+        const quantityNum = parseFloat(formData.quantity);
+
+        if (isNaN(startingPriceNum) || startingPriceNum <= 0) {
             errors.startingPrice = 'Starting price must be greater than 0';
         }
 
-        if (formData.quantity <= 0) {
+        if (isNaN(quantityNum) || quantityNum <= 0) {
             errors.quantity = 'Quantity must be greater than 0';
         }
 
@@ -95,16 +98,16 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value, type } = e.target;
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'number' ? parseFloat(value) || 0 : value,
+            [name]: value,
         }));
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            const files = Array.from(e.target.files);
+            const files = Array.from(e.target.files); // Make sure it's an array of files
             setFormData(prev => ({
                 ...prev,
                 images: files,
@@ -120,15 +123,38 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
         }
 
         try {
-            const resultAction = await dispatch(uploadProduct(formData)).unwrap();
+            // Create a new FormData
+            const formDataToSubmit = new FormData();
+
+
+            // Append all form fields
+            formDataToSubmit.append('name', formData.name);
+            formDataToSubmit.append('description', formData.description);
+            formDataToSubmit.append('startingPrice', parseFloat(formData.startingPrice).toString());
+            formDataToSubmit.append('quantity', parseFloat(formData.quantity).toString());
+            formDataToSubmit.append('startingDate', formData.startingDate);
+            formDataToSubmit.append('endingDate', formData.endingDate);
+            formDataToSubmit.append('bidStartTime', formData.bidStartTime);
+            formDataToSubmit.append('bidEndTime', formData.bidEndTime);
+
+            // Append each image file (note that the name here should match what your backend expects)
+            if (formData.images && formData.images.length === 3) {
+                formData.images.forEach((file) => {
+                    formDataToSubmit.append('images', file);  // 'images' is the field name expected by your backend
+                });
+            } else {
+                throw new Error('Please upload exactly 3 images');
+            }
+
+            const resultAction = await dispatch(uploadProduct(formDataToSubmit)).unwrap();
             if (resultAction) {
                 onUploadSuccess?.();
                 // Reset form
                 setFormData({
                     name: '',
                     description: '',
-                    startingPrice: 0,
-                    quantity: 0,
+                    startingPrice: '0',  // Reset to string '0'
+                    quantity: '0',       // Reset to string '0'
                     startingDate: '',
                     endingDate: '',
                     bidStartTime: '',
@@ -136,6 +162,9 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                     images: [],
                 });
             }
+
+            console.log("payload Data : ",[...formDataToSubmit.entries()]);
+
         } catch (error) {
             console.error('Failed to upload product:', error);
         }
@@ -174,8 +203,6 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                     value={formData.startingPrice}
                     onChange={handleInputChange}
                     error={formErrors.startingPrice}
-                    min="0"
-                    step="0.01"
                 />
 
                 <InputField
@@ -185,7 +212,6 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                     value={formData.quantity}
                     onChange={handleInputChange}
                     error={formErrors.quantity}
-                    min="1"
                 />
             </div>
 

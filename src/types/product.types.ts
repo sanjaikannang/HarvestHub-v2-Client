@@ -30,8 +30,8 @@ export interface Product {
   export interface UploadProductData {
     name: string;
     description: string;
-    startingPrice: number;
-    quantity: number;
+    startingPrice: string;
+    quantity: string;
     startingDate: string;
     endingDate: string;
     bidStartTime: string;
