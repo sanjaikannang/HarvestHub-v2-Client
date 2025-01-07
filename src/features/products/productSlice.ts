@@ -61,5 +61,6 @@ const productSlice = createSlice({
   },
 });
 
+
 export const { clearError, clearCurrentProduct } = productSlice.actions;
 export default productSlice.reducer;
