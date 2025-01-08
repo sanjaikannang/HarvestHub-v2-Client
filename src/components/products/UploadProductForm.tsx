@@ -105,14 +105,11 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
         }));
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            const files = Array.from(e.target.files); // Make sure it's an array of files
-            setFormData(prev => ({
-                ...prev,
-                images: files,
-            }));
-        }
+    const handleFileChange = (files: File[]) => {
+        setFormData(prev => ({
+            ...prev,
+            images: files
+        }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -137,14 +134,14 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
             formDataToSubmit.append('bidStartTime', formData.bidStartTime);
             formDataToSubmit.append('bidEndTime', formData.bidEndTime);
 
-            // Append each image file (note that the name here should match what your backend expects)
-            if (formData.images && formData.images.length === 3) {
-                formData.images.forEach((file) => {
-                    formDataToSubmit.append('images', file);  // 'images' is the field name expected by your backend
-                });
-            } else {
-                throw new Error('Please upload exactly 3 images');
-            }
+            // Append images
+            formData.images.forEach((file) => {
+                formDataToSubmit.append('photos', file);
+            });
+
+            // Log the FormData content for debugging
+            console.log("Images being sent:", formData.images.length);
+            console.log("FormData entries:", [...formDataToSubmit.entries()]);
 
             const resultAction = await dispatch(uploadProduct(formDataToSubmit)).unwrap();
             if (resultAction) {
@@ -163,10 +160,13 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                 });
             }
 
-            console.log("payload Data : ",[...formDataToSubmit.entries()]);
+            console.log("payload Data : ", [...formDataToSubmit.entries()]);
 
         } catch (error) {
             console.error('Failed to upload product:', error);
+            if (error instanceof Error) {
+                alert(error.message);
+            }
         }
     };
 
@@ -258,13 +258,9 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
             </div>
 
             <ImageUpload
-                label="Product Images"
                 name="images"
                 onChange={handleFileChange}
                 error={formErrors.images}
-                required
-                multiple
-                maxFiles={3}
             />
 
             <div className='mb-4'>
