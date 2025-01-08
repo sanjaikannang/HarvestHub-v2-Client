@@ -19,7 +19,7 @@ export const uploadProduct = createAsyncThunk(
 
       const response = await apiClient.post('/product/create-order', formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
