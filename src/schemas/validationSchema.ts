@@ -37,7 +37,7 @@ export const productUploadValidationSchema = Yup.object().shape({
         .min(3, 'Product Name must be at least 3 characters !'),
     description: Yup.string()
         .required('Description is Required !')
-        .min(20, 'Description Must be at Least 20 Characters Long !'),
+        .min(20, 'Description Must be At Least 20 Characters Long !'),
     startingPrice: Yup.number()
         .required('Starting Price is Required !')
         .positive('Starting Price Must be Greater Than 0 !'),
@@ -65,36 +65,35 @@ export const productUploadValidationSchema = Yup.object().shape({
                 return hoursDifference >= 24 && hoursDifference <= 72;
             }
         ),
-    bidStartTime: Yup.string()
+    bidStartTime: Yup.date()
         .required('Bid Start Time is Required !')
         .test(
             'start-time-range',
             'Bid Start Time Must be Within The Selected Date Range !',
-            function (startTime) {
+            function (bidStartTime) {
                 const { startingDate, endingDate } = this.parent;
-                if (!startTime || !startingDate || !endingDate) return true;
+                if (!bidStartTime || !startingDate || !endingDate) return true;
 
-                const bidStart = new Date(`${startingDate.toISOString().split('T')[0]}T${startTime}`);
-                return bidStart >= startingDate && bidStart <= endingDate;
+                return bidStartTime >= startingDate && bidStartTime <= endingDate;
             }
         ),
-    bidEndTime: Yup.string()
+    bidEndTime: Yup.date()
         .required('Bid End Time is Required !')
         .test(
             'end-time-range',
             'Bid End Time Must be After Start Time and Within Date Range !',
-            function (endTime) {
+            function (bidEndTime) {
                 const { startingDate, endingDate, bidStartTime } = this.parent;
-                if (!endTime || !bidStartTime || !startingDate || !endingDate) return true;
+                if (!bidEndTime || !bidStartTime || !startingDate || !endingDate) return true;
 
-                const bidStart = new Date(`${startingDate.toISOString().split('T')[0]}T${bidStartTime}`);
-                const bidEnd = new Date(`${startingDate.toISOString().split('T')[0]}T${endTime}`);
+                // Check if bid end time is after bid start time and within date range
+                const isWithinRange = bidEndTime > bidStartTime && bidEndTime <= endingDate;
 
-                if (bidEnd <= bidStart) return false;
-                if (bidEnd > endingDate) return false;
+                // Calculate duration in minutes
+                const durationMinutes = (bidEndTime.getTime() - bidStartTime.getTime()) / (1000 * 60);
+                const isValidDuration = durationMinutes >= 10 && durationMinutes <= 60;
 
-                const durationMinutes = (bidEnd.getTime() - bidStart.getTime()) / (1000 * 60);
-                return durationMinutes >= 10 && durationMinutes <= 60;
+                return isWithinRange && isValidDuration;
             }
         ),
     images: Yup.array()
