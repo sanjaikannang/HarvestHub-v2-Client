@@ -8,6 +8,7 @@ const initialState: ProductState = {
   currentProduct: null,
   loading: false,
   error: null,
+  successMessage: null,
 };
 
 
@@ -15,8 +16,8 @@ const initialState: ProductState = {
 export const uploadProduct = createAsyncThunk(
   'product/create-order',
   async (formData: FormData, { rejectWithValue }) => {
-    try {
 
+    try {
       const response = await apiClient.post('/product/create-order', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -27,7 +28,8 @@ export const uploadProduct = createAsyncThunk(
       return response.data;
 
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to upload product');
+      const errorMessage = error.response?.data?.message || 'Failed to upload product';
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -40,6 +42,9 @@ const productSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    clearSuccessMessage: (state) => {
+      state.successMessage = null;
+    },
     clearCurrentProduct: (state) => {
       state.currentProduct = null;
     },
@@ -50,9 +55,12 @@ const productSlice = createSlice({
       .addCase(uploadProduct.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.successMessage = null;
       })
-      .addCase(uploadProduct.fulfilled, (state) => {
+      .addCase(uploadProduct.fulfilled, (state, action) => {
         state.loading = false;
+        state.successMessage = action.payload.message || 'Product uploaded successfully!';
+        state.currentProduct = action.payload.product;
       })
       .addCase(uploadProduct.rejected, (state, action) => {
         state.loading = false;
@@ -62,5 +70,5 @@ const productSlice = createSlice({
 });
 
 
-export const { clearError, clearCurrentProduct } = productSlice.actions;
+export const { clearError, clearSuccessMessage, clearCurrentProduct } = productSlice.actions;
 export default productSlice.reducer;

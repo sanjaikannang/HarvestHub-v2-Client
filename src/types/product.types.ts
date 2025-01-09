@@ -25,6 +25,7 @@ export interface Product {
     currentProduct: Product | null;
     loading: boolean;
     error: string | null;
+    successMessage: string | null;
   }
   
   export interface UploadProductData {
