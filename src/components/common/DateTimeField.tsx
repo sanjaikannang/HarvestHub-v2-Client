@@ -1,44 +1,42 @@
 import React from 'react';
 
-interface TimeFieldProps {
+interface DateTimeFieldProps {
     label: string;
     name: string;
-    value: string;
+    value: string | Date;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
-    required?: boolean;
     min?: string;
     max?: string;
 }
 
-const TimeField: React.FC<TimeFieldProps> = ({
+const DateTimeField: React.FC<DateTimeFieldProps> = ({
     label,
     name,
     value,
     onChange,
     error,
-    required = false,
     min,
     max
 }) => {
     return (
-        <div className='mb-4'>
-            <label className="text-gray-700 text-sm ml-1 mb-2">
-                {label} {required && <span className="text-red-500">*</span>}
+        <div className="flex flex-col">
+            <label htmlFor={name} className="mb-1 text-sm font-medium text-gray-700">
+                {label}
             </label>
             <input
                 type="datetime-local"
+                id={name}
                 name={name}
-                value={value}
+                value={typeof value === 'string' ? value : value.toISOString().slice(0, 16)}
                 onChange={onChange}
-                required={required}
                 min={min}
                 max={max}
                 className="border rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
-            {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-            </div>
+            {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+        </div>
     );
 };
 
-export default TimeField;
+export default DateTimeField;
