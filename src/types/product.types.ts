@@ -35,8 +35,8 @@ export interface Product {
     quantity: string;
     startingDate: string;
     endingDate: string;
-    bidStartTime: string;
-    bidEndTime: string;
+    bidStartTime: Date | string;
+    bidEndTime: Date | string;
     images: File[];
   }
   

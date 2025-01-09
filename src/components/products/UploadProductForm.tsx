@@ -6,12 +6,12 @@ import { InputField } from '../common/InputField';
 import { Button } from '../common/Button';
 import TextArea from '../common/TextArea';
 import DateField from '../common/DateField';
-import TimeField from '../common/TimeField';
 import ImageUpload from '../common/ImageUpload';
 import { toast } from 'react-toastify';
 import LoadingSpinner from '../common/LoadingSpinner';
 import { productUploadValidationSchema } from '../../schemas/validationSchema';
 import { useFormik } from 'formik';
+import DateTimeField from '../common/DateTimeField';
 
 
 interface UploadProductFormProps {
@@ -149,20 +149,24 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                <TimeField
+                <DateTimeField
                     label="Bid Start Time"
                     name="bidStartTime"
                     value={formik.values.bidStartTime}
                     onChange={formik.handleChange}
                     error={formik.touched.bidStartTime ? formik.errors.bidStartTime : undefined}
+                    min={formik.values.startingDate}
+                    max={formik.values.endingDate}
                 />
 
-                <TimeField
+                <DateTimeField
                     label="Bid End Time"
                     name="bidEndTime"
                     value={formik.values.bidEndTime}
                     onChange={formik.handleChange}
                     error={formik.touched.bidEndTime ? formik.errors.bidEndTime : undefined}
+                    min={formik.values.startingDate}
+                    max={formik.values.endingDate}
                 />
             </div>
 
@@ -180,8 +184,10 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                 >
                     {loading ? (
                         <>
-                            <LoadingSpinner />
-                            <span>Uploading...</span>
+                            <div className="flex items-center">
+                                <LoadingSpinner />
+                                <span className="ml-2">Uploading...</span>
+                            </div>
                         </>
                     ) : 'Upload Product'}
                 </Button>
