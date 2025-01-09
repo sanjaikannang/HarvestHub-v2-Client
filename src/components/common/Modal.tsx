@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import React from "react";
 
 interface ModalProps {
@@ -19,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700"
           >
-            ✕
+            <X/>
           </button>
         </div>
         <div>{children}</div>

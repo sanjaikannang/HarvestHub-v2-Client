@@ -94,6 +94,7 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                 label="Product Name"
                 type="text"
                 name="name"
+                placeholder='Enter Product Name'
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name ? formik.errors.name : undefined}
@@ -102,6 +103,7 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
             <TextArea
                 label="Description"
                 name="description"
+                placeholder='Enter Product Description'
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 error={formik.touched.description ? formik.errors.description : undefined}
@@ -184,7 +186,7 @@ export const UploadProductForm: React.FC<UploadProductFormProps> = ({
                 >
                     {loading ? (
                         <>
-                            <div className="flex items-center">
+                            <div className="flex items-center justify-center">
                                 <LoadingSpinner />
                                 <span className="ml-2">Uploading...</span>
                             </div>
