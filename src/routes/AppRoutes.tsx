@@ -5,7 +5,7 @@ import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
 import FarmerDashboard from "../pages/FarmerDashboard";
 import BuyerDashboard from "../pages/BuyerDashboard";
-import AdminDashboard from "../pages/AdminDashboard";
+import { AdminDashboard } from "../pages/AdminDashboard";
 
 
 // AppRoutes component to handle routing of the application
@@ -30,7 +30,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
 
                 {/* Farmer Dashboard */}
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard/>} />
                 
             </Routes>
         </Router>
